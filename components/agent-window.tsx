@@ -31,19 +31,19 @@ interface AgentWindowProps {
 }
 
 const statusConfig = {
-  idle: { color: 'bg-gray-500', icon: AlertCircle, label: 'Idle' },
-  processing: { color: 'bg-blue-500', icon: Loader2, label: 'Processing' },
-  completed: { color: 'bg-green-500', icon: CheckCircle, label: 'Completed' },
-  error: { color: 'bg-red-500', icon: AlertCircle, label: 'Error' },
+  idle: { color: 'bg-slate-500/70', icon: AlertCircle, label: 'Idle' },
+  processing: { color: 'bg-primary', icon: Loader2, label: 'Processing' },
+  completed: { color: 'bg-emerald-500', icon: CheckCircle, label: 'Completed' },
+  error: { color: 'bg-rose-500', icon: AlertCircle, label: 'Error' },
   // Placeholder state for agents that aren't implemented yet
-  'coming-soon': { color: 'bg-violet-500', icon: AlertCircle, label: 'Coming soon' },
+  'coming-soon': { color: 'bg-purple-500', icon: AlertCircle, label: 'Coming soon' },
 };
 
 const severityColors: Record<SeverityLevel, string> = {
-  low: 'bg-blue-500',
-  medium: 'bg-yellow-500',
+  low: 'bg-cyan-500',
+  medium: 'bg-amber-500',
   high: 'bg-orange-500',
-  critical: 'bg-red-500',
+  critical: 'bg-rose-500',
 };
 
 const ProvenanceBadge = ({ provenance }: { provenance: string }) => (
@@ -54,11 +54,11 @@ const ProvenanceBadge = ({ provenance }: { provenance: string }) => (
   >
     <Badge
       variant="secondary"
-      className="text-xs bg-cyan-500/10 text-cyan-400 border-cyan-500/30"
+      className="text-xs border-primary/40 bg-primary/10 text-primary"
     >
       {provenance}
     </Badge>
-    <div className="absolute inset-0 bg-cyan-500/20 rounded animate-pulse-glow opacity-30" />
+    <div className="absolute inset-0 rounded bg-primary/25 animate-pulse-glow opacity-30" />
   </motion.div>
 );
 
@@ -80,9 +80,9 @@ const ThinkingAnimation = () => (
         ease: "easeInOut"
       }}
     >
-      <Activity className="w-8 h-8 text-cyan-500" />
+      <Activity className="h-8 w-8 text-primary" />
       <motion.div
-        className="absolute inset-0 bg-cyan-500/30 rounded-full"
+        className="absolute inset-0 rounded-full bg-primary/30"
         animate={{
           scale: [1, 1.5, 1],
           opacity: [0.5, 0, 0.5],
@@ -115,7 +115,7 @@ const ThinkingAnimation = () => (
     </div>
 
     <motion.p
-      className="text-sm text-gray-400"
+      className="text-sm text-slate-400"
       animate={{ opacity: [0.5, 1, 0.5] }}
       transition={{ duration: 2, repeat: Infinity }}
     >
@@ -126,7 +126,7 @@ const ThinkingAnimation = () => (
 
 const ShimmerCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
   <motion.div
-    className={`relative overflow-hidden bg-gradient-to-r from-cyan-500/5 via-cyan-500/10 to-cyan-500/5 border border-cyan-500/20 rounded-lg ${className}`}
+    className={`relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 ${className}`}
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.3 }}
@@ -165,12 +165,12 @@ export function AgentWindow({
       transition={{ duration: 0.3 }}
       className="h-full"
     >
-      <Card className="flex flex-col h-full bg-[#0f1724] border-cyan-500/20 overflow-hidden relative">
+      <Card className="relative flex h-full flex-col overflow-hidden border border-white/10 bg-slate-900/70">
         {/* Animated border for processing state */}
         <AnimatePresence>
           {data.status === 'processing' && (
             <motion.div
-              className="absolute inset-0 border-2 border-cyan-500/50 rounded-lg pointer-events-none"
+              className="pointer-events-none absolute inset-0 rounded-lg border-2 border-primary/60"
               initial={{ opacity: 0 }}
               animate={{
                 opacity: [0.3, 0.8, 0.3],
@@ -188,12 +188,12 @@ export function AgentWindow({
 
         {/* Header */}
         <motion.div
-          className="flex items-center justify-between p-4 border-b border-cyan-500/20"
+          className="flex items-center justify-between border-b border-white/10 p-4"
           layout
         >
           <div className="flex items-center gap-3">
             <motion.div
-              className={`w-3 h-3 rounded-full ${statusInfo.color}`}
+              className={`h-3 w-3 rounded-full ${statusInfo.color}`}
               animate={data.status === 'processing' ? {
                 scale: [1, 1.2, 1],
                 opacity: [0.7, 1, 0.7]
@@ -206,7 +206,7 @@ export function AgentWindow({
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs border-white/20 text-slate-200">
                 {statusInfo.label}
               </Badge>
             </motion.div>
@@ -227,7 +227,7 @@ export function AgentWindow({
                 variant="ghost"
                 onClick={onReRun}
                 disabled={data.status === 'processing'}
-                className="hover:bg-cyan-500/10"
+                className="hover:bg-white/10"
               >
                 <RefreshCw className={`w-4 h-4 ${data.status === 'processing' ? 'animate-spin' : ''}`} />
               </Button>
@@ -236,7 +236,7 @@ export function AgentWindow({
               size="sm"
               variant="ghost"
               onClick={handleCopy}
-              className="hover:bg-cyan-500/10"
+              className="hover:bg-white/10"
             >
               <Copy className="w-4 h-4" />
             </Button>
@@ -245,7 +245,7 @@ export function AgentWindow({
                 size="sm"
                 variant="ghost"
                 onClick={() => onDownload('json')}
-                className="hover:bg-cyan-500/10"
+                className="hover:bg-white/10"
               >
                 <Download className="w-4 h-4" />
               </Button>
@@ -255,7 +255,7 @@ export function AgentWindow({
                 size="sm"
                 variant="ghost"
                 onClick={onDelete}
-                className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                className="text-rose-300 hover:bg-rose-500/10 hover:text-rose-200"
               >
                 <Trash2 className="w-4 h-4" />
               </Button>
@@ -272,9 +272,9 @@ export function AgentWindow({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <div className="bg-violet-500/5 border border-violet-500/20 rounded-lg p-6 text-center max-w-sm">
-                  <p className="font-semibold text-violet-300">Coming soon</p>
-                  <p className="text-sm text-gray-300 mt-2">This agent is not implemented in the current build.</p>
+                <div className="max-w-sm rounded-xl border border-purple-500/30 bg-purple-500/10 p-6 text-center">
+                  <p className="font-semibold text-purple-200">Coming soon</p>
+                  <p className="mt-2 text-sm text-slate-300">This agent is not implemented in the current build.</p>
                 </div>
               </motion.div>
             )}
@@ -288,13 +288,13 @@ export function AgentWindow({
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="bg-red-500/10 border border-red-500/20 rounded-lg p-4"
+                className="rounded-xl border border-rose-500/25 bg-rose-500/10 p-4"
               >
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="w-5 h-5 text-red-400 mt-0.5" />
+                  <AlertCircle className="mt-0.5 h-5 w-5 text-rose-200" />
                   <div>
-                    <p className="font-medium text-red-400">Error</p>
-                    <p className="text-sm text-gray-300 mt-1">{data.error}</p>
+                    <p className="font-medium text-rose-100">Error</p>
+                    <p className="mt-1 text-sm text-slate-300">{data.error}</p>
                   </div>
                 </div>
               </motion.div>
@@ -306,9 +306,9 @@ export function AgentWindow({
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3"
               >
-                <h4 className="text-sm font-medium text-cyan-400">AI Summary</h4>
+                <h4 className="text-sm font-medium text-primary">AI Summary</h4>
                 <ShimmerCard className="p-4">
-                  <p className="text-sm text-gray-300">{redactSensitiveData(data.aiSummary.summary)}</p>
+                  <p className="text-sm text-slate-300">{redactSensitiveData(data.aiSummary.summary)}</p>
                   {data.aiSummary.insights && data.aiSummary.insights.length > 0 && (
                     <motion.div
                       className="mt-3 space-y-1"
@@ -316,11 +316,11 @@ export function AgentWindow({
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <p className="text-xs font-medium text-gray-400">Key Insights:</p>
+                      <p className="text-xs font-medium text-slate-400">Key Insights:</p>
                       {data.aiSummary.insights.map((insight, i) => (
                         <motion.p
                           key={i}
-                          className="text-xs text-gray-300 pl-2"
+                          className="text-xs text-slate-300 pl-2"
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.1 * i }}
@@ -341,7 +341,7 @@ export function AgentWindow({
                 transition={{ delay: 0.1 }}
                 className="space-y-3"
               >
-                <h4 className="text-sm font-medium text-orange-400">Anomalies Detected</h4>
+                <h4 className="text-sm font-medium text-amber-300">Anomalies Detected</h4>
                 <div className="space-y-2">
                   {data.aiSummary.anomalies.slice(0, 5).map((anomaly, i) => (
                     <motion.div
@@ -349,19 +349,19 @@ export function AgentWindow({
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 * i }}
-                      className="bg-orange-500/5 border border-orange-500/20 rounded-lg p-3 hover:bg-orange-500/10 transition-colors"
+                      className="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 transition-colors hover:bg-amber-500/15"
                     >
                       {anomaly.severity && (
                         <Badge className={`${severityColors[anomaly.severity]} text-white text-xs mb-2`}>
                           {anomaly.severity}
                         </Badge>
                       )}
-                      <p className="text-xs font-mono text-gray-300 mb-1">
+                      <p className="mb-1 text-xs font-mono text-slate-200">
                         {redactSensitiveData(anomaly.snippet)}
                       </p>
-                      <p className="text-xs text-gray-400">{anomaly.explanation}</p>
+                      <p className="text-xs text-slate-300">{anomaly.explanation}</p>
                       {anomaly.line && (
-                        <p className="text-xs text-gray-500 mt-1">Line {anomaly.line}</p>
+                        <p className="mt-1 text-xs text-slate-400">Line {anomaly.line}</p>
                       )}
                     </motion.div>
                   ))}
@@ -376,17 +376,17 @@ export function AgentWindow({
                 transition={{ delay: 0.2 }}
                 className="space-y-3"
               >
-                <h4 className="text-sm font-medium text-purple-400">Intent Analysis</h4>
+                <h4 className="text-sm font-medium text-purple-200">Intent Analysis</h4>
                 <ShimmerCard className="p-4 space-y-2">
                   <div>
-                    <span className="text-xs text-gray-400">Primary Intent: </span>
-                    <span className="text-sm text-gray-200">
+                    <span className="text-xs text-slate-400">Primary Intent: </span>
+                    <span className="text-sm text-slate-200">
                       {data.intentAnalysis.analysis.intent.primary}
                     </span>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-400">Confidence: </span>
-                    <span className="text-sm text-gray-200">
+                    <span className="text-xs text-slate-400">Confidence: </span>
+                    <span className="text-sm text-slate-200">
                       {(data.intentAnalysis.analysis.intent.confidence * 100).toFixed(1)}%
                     </span>
                   </div>
@@ -397,11 +397,11 @@ export function AgentWindow({
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.3 }}
                     >
-                      <p className="text-xs text-gray-400 mb-1">Suggested Clarifications:</p>
+                      <p className="mb-1 text-xs text-slate-400">Suggested Clarifications:</p>
                       {data.intentAnalysis.analysis.suggestedClarifications.map((suggestion, i) => (
                         <motion.p
                           key={i}
-                          className="text-xs text-gray-300 pl-2"
+                          className="text-xs text-slate-300 pl-2"
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.1 * i }}
@@ -424,12 +424,12 @@ export function AgentWindow({
             >
               <Accordion type="single" collapsible>
                 <AccordionItem value="raw-data">
-                  <AccordionTrigger className="text-sm text-gray-400">
+                  <AccordionTrigger className="text-sm text-slate-300">
                     Raw Data ({Array.isArray(data.rawParsedData) ? data.rawParsedData.length : 1} items)
                   </AccordionTrigger>
                   <AccordionContent>
                     <motion.pre
-                      className="text-xs bg-black/30 p-3 rounded overflow-auto max-h-64"
+                      className="max-h-64 overflow-auto rounded-lg border border-white/10 bg-black/40 p-3 text-xs"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       transition={{ duration: 0.3 }}
@@ -444,7 +444,7 @@ export function AgentWindow({
 
           {data.lastUpdated && (
             <motion.p
-              className="text-xs text-gray-500 text-right"
+              className="text-xs text-slate-500 text-right"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -456,7 +456,7 @@ export function AgentWindow({
 
         {onSummarize && data.status === 'completed' && (
           <motion.div
-            className="p-4 border-t border-cyan-500/20"
+            className="border-t border-white/10 p-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -464,7 +464,7 @@ export function AgentWindow({
             <Button
               onClick={onSummarize}
               variant="outline"
-              className="w-full border-cyan-500/30 hover:bg-cyan-500/10 hover:border-cyan-500/50 transition-all duration-300"
+              className="w-full rounded-lg border-white/20 bg-white/5 text-slate-200 transition-all duration-300 hover:bg-white/10"
             >
               Generate Summary
             </Button>

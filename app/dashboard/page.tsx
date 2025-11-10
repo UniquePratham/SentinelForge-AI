@@ -376,19 +376,42 @@ ${analysisAgentData.status === 'coming-soon' ? '- Analysis agent coming soon' : 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1724] via-[#1a2332] to-[#0f1724]">
+    <div className="relative min-h-screen overflow-hidden bg-slate-950">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
+        <div className="absolute bottom-[-20%] left-[-10%] h-[420px] w-[420px] rounded-full bg-emerald-500/15 blur-[160px]" />
+        <div className="absolute bottom-[-10%] right-[-15%] h-[500px] w-[500px] rounded-full bg-purple-500/15 blur-[180px]" />
+      </div>
+
       <CommandPalette
         onUpload={() => fileInputRef.current?.click()}
         onExport={() => handleExport('json')}
       />
-      <nav className="border-b border-cyan-500/20 backdrop-blur-sm">
-        <div className="container-fluid px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Shield className="w-7 h-7 text-cyan-500" />
-            <span className="text-xl font-bold text-white">SentinelForge</span>
+      <nav className="relative border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-3 text-white">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
+              <Shield className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-lg font-semibold">SentinelForge Command</p>
+              <p className="text-xs text-slate-400">Autonomous Response Console</p>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
+            <a href="#" className="hover:text-primary transition-colors">
+              Docs
+            </a>
+            <a href="#" className="hover:text-primary transition-colors">
+              Status
+            </a>
+            <a href="#" className="hover:text-primary transition-colors">
+              Changelog
+            </a>
+          </div>
+
+          <div className="flex items-center gap-3 text-white">
             <input
               ref={fileInputRef}
               type="file"
@@ -402,37 +425,37 @@ ${analysisAgentData.status === 'coming-soon' ? '- Analysis agent coming soon' : 
             <Button
               onClick={() => fileInputRef.current?.click()}
               size="sm"
-              className="bg-cyan-500 hover:bg-cyan-600"
+              className="hidden h-9 rounded-lg bg-primary px-4 text-slate-900 shadow-[0_0_20px_rgba(34,211,238,0.35)] hover:bg-primary/80 md:inline-flex"
             >
-              <Upload className="w-4 h-4 mr-2" />
-              Upload
+              <Upload className="mr-2 h-4 w-4" />
+              New ingest
             </Button>
 
             <Button
               onClick={() => handleExport('json')}
               size="sm"
               variant="outline"
-              className="border-cyan-500/30"
+              className="hidden h-9 rounded-lg border-white/20 bg-white/5 px-4 text-slate-200 hover:bg-white/10 md:inline-flex"
               disabled={reportAgentData.status !== 'completed'}
             >
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="mr-2 h-4 w-4" />
               Export
             </Button>
 
             <Button
               size="sm"
               variant="ghost"
-              className="text-gray-400"
+              className="h-9 rounded-lg text-slate-300 hover:bg-white/10"
               title="Command Palette (Cmd+K)"
             >
-              <Command className="w-4 h-4" />
+              <Command className="h-4 w-4" />
             </Button>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <Avatar className="w-7 h-7">
-                    <AvatarFallback className="bg-cyan-500 text-white text-xs">
+                <Button variant="ghost" size="sm" className="h-9 gap-2 rounded-lg text-slate-200 hover:bg-white/10">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="bg-primary text-slate-900 text-xs">
                       {user.name?.charAt(0).toUpperCase() || 'U'}
                     </AvatarFallback>
                   </Avatar>
@@ -440,25 +463,46 @@ ${analysisAgentData.status === 'coming-soon' ? '- Analysis agent coming soon' : 
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
-                <DropdownMenuLabel className="font-normal text-xs text-gray-400">
+                <DropdownMenuLabel className="font-normal text-xs text-muted-foreground">
                   {user.email}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <User className="w-4 h-4 mr-2" />
+                  <User className="mr-2 h-4 w-4" />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="w-4 h-4 mr-2" />
+                  <LogOut className="mr-2 h-4 w-4" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <div className="flex items-center gap-2 md:hidden">
+              <Button
+                size="icon"
+                className="h-9 w-9 rounded-lg bg-primary text-slate-900 hover:bg-primary/80"
+                onClick={() => fileInputRef.current?.click()}
+                title="Upload"
+              >
+                <Upload className="h-4 w-4" />
+              </Button>
+              <Button
+                size="icon"
+                variant="outline"
+                className="h-9 w-9 rounded-lg border-white/20 bg-white/5 text-slate-200 hover:bg-white/10"
+                onClick={() => handleExport('json')}
+                disabled={reportAgentData.status !== 'completed'}
+                title="Export"
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
 
-      <main className="h-[calc(100vh-64px)] p-4">
+      <main className="relative z-10 h-[calc(100vh-64px)] px-4 pb-6 pt-4 md:px-6">
         <PanelGroup direction="vertical" className="h-full">
           <Panel defaultSize={60} minSize={40}>
             <PanelGroup direction="horizontal">
